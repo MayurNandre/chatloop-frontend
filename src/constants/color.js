@@ -1,0 +1,11 @@
+export const orange = "#ea7070";
+export const orangeLight = "rgba(234,112,112,0.2)";
+export const grayColor = "rgba(247,247,247,1)";
+export const lightBlue = "#2694ab"
+export const matBlack = "#1c1c1c"
+export const bgGradient = "linear-gradient(to right, #a8edea, #fed6e3)";
+export const bgGradientHeader = "linear-gradient(to right, #ff4a62ff, #fed6e3)";
+export const bgGradient2 = "linear-gradient(to right, #fbc2eb, #a6c1ee)";
+export const purpleLight = "rgba(75,12,192,0.2)"
+export const purple = "purple";
+export const blackWhiteGradient = "linear-gradient(to right, #000000, #ffffff)"
