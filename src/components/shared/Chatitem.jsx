@@ -1,7 +1,9 @@
 import { Box, Stack, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useCallback, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { matBlack } from '../../constants/color'
+import { setIsMobile } from '../../redux/reducers/misc'
 import { Link } from '../styles/StyledComponent'
 import AvatarCard from './AvatarCard'
 
@@ -17,7 +19,15 @@ const Chatitem = ({
     handleDeleteChat,
 }) => {
 
-    // To disable inspect tab -- Remove After Testing
+    const dispatch = useDispatch();
+    const { isMobile } = useSelector((state) => state.misc);
+
+    const handleChatClick = useCallback(() => {
+        if (isMobile) dispatch(setIsMobile(false));
+    }, [isMobile, dispatch]);
+
+
+    // To disable inspect tab on chat items
     const ref = useRef();
 
     useEffect(() => {
@@ -26,22 +36,17 @@ const Chatitem = ({
                 e.preventDefault();
             }
         };
-
         document.addEventListener("contextmenu", handleContextMenu);
-
         return () => {
             document.removeEventListener("contextmenu", handleContextMenu);
         };
     }, []);
-    // To disable inspect tab -- Remove After Testing End
 
     return (
         <Link
             sx={{ padding: "0" }}
             to={`/chat/${_id}`}
-            onClick={() => {
-                if (isMobile) dispatch(setIsMobile(false));
-            }}
+            onClick={handleChatClick}
             onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
         >
 
@@ -49,8 +54,6 @@ const Chatitem = ({
                 initial={{ opacity: 0, y: "-%100" }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-
-
                 style={{
                     display: "flex",
                     gap: groupChat ? "1rem" : "0rem",
@@ -66,17 +69,16 @@ const Chatitem = ({
 
                 <AvatarCard avatar={avatar} />
                 <Stack >
-                    <Typography sx={{ fontSize: { xs: "0.7rem", sm: "0.8rem", md: "1rem" } }}>{name}</Typography>
+                    <Typography sx={{ fontSize: { xs: "1rem", sm: "1rem", md: "1.2rem" } }}>{name}</Typography>
                     {
                         newMessageAlert && (
                             <Typography
-                                sx={{ fontSize: { xs: "0.3rem", sm: "0.3rem", md: "0.8rem" } }}>
+                                sx={{ fontSize: { xs: "0.5rem", sm: "0.5rem", md: "0.8rem" } }}>
                                 {newMessageAlert.count} New Message
                             </Typography>
                         )
                     }
                 </Stack>
-
                 {
                     isOnline && <Box sx={{
                         width: "10px",

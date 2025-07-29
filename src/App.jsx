@@ -25,15 +25,6 @@ const ChatManagement = lazy(() => import("./pages/admin/ChatManagement"))
 
 
 const App = () => {
-  // To disable inspect tab
-// useEffect(() => {
-//     const disableContextMenu = (e) => e.preventDefault();
-//     document.addEventListener("contextmenu", disableContextMenu);
-
-//     return () => {
-//       document.removeEventListener("contextmenu", disableContextMenu);
-//     };
-//   }, []);
 
   const { user, loader } = useSelector(state => state.auth)
 
