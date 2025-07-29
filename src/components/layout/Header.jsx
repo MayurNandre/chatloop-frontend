@@ -73,6 +73,7 @@ const Header = () => {
             WebkitBackdropFilter: "blur(12px)",
             borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
             color: matBlack,
+            height: "4rem",
           }}
         >
           <Toolbar>
