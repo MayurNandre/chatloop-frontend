@@ -1,0 +1,19 @@
+/* index.css */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
