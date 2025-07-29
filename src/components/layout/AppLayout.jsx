@@ -1,4 +1,4 @@
-import { Drawer, Grid, Skeleton } from '@mui/material'
+import { Drawer, Grid, Skeleton, Box } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -14,7 +14,6 @@ import Title from "../shared/Title"
 import ChatList from '../specific/ChatList'
 import Profile from '../specific/Profile'
 import Header from './Header'
-import { bgGradient2, blackWhiteGradient, matBlack } from '../../constants/color'
 
 const AppLayout = () => (Wrappedcomponent) => {
     return (props) => {
@@ -84,13 +83,24 @@ const AppLayout = () => (Wrappedcomponent) => {
         useSocketEvents(socket, eventHandlers)
 
         return (
-            <>
+            <Box sx={{ height: "100vh", overflow: "hidden", width: "100vw" }}>
                 <Title />
                 <Header />
                 <DeleteChatMenu dispatch={dispatch} deleteMenuAnchor={deleteMenuAnchor} />
                 {
-                    isLoading ? <Skeleton /> : (
-                        <Drawer open={isMobile} onClose={handleMobileClose}>
+                    isLoading ? (
+                        <Skeleton variant="rectangular" height="100%" />
+                    ) : (
+                        <Drawer
+                            open={isMobile}
+                            onClose={handleMobileClose}
+                            PaperProps={{
+                                sx: {
+                                    height: '100vh',
+                                    overflow: 'auto'
+                                }
+                            }}
+                        >
                             <ChatList
                                 w='70vw'
                                 chats={data?.chats}
@@ -102,42 +112,44 @@ const AppLayout = () => (Wrappedcomponent) => {
                         </Drawer>
                     )
                 }
-                <Grid container height={"calc(100vh - 4rem)"}>
-                    <Grid item sm={4} md={3} height={"100%"}
-                        sx={{
-                            display: { xs: "none", sm: "block" }
-                        }}>
+
+                <Grid container height="calc(100vh - 4rem)" overflow="hidden">
+                    {/* Left Sidebar */}
+                    <Grid item sm={4} md={3} sx={{ display: { xs: "none", sm: "block" }, height: "100%", overflow: "auto" }}>
                         {
-                            isLoading ? (
-                                <Skeleton />
-                            ) : (
+                            isLoading ? <Skeleton variant="rectangular" height="100%" /> : (
                                 <ChatList
                                     chats={data?.chats}
                                     ChatId={chatId}
                                     handleDeleteChat={handleDeleteChat}
                                     newMessagesAlert={newMessagesAlert}
                                     onlineUsers={onlineUsers}
-                                />)
+                                />
+                            )
                         }
                     </Grid>
 
-                    <Grid item sm={8} md={6} xs={12} height={"100%"}>
-                        <Wrappedcomponent {...props}
-                            chatId={chatId}
-                            user={user} />
+                    {/* Middle Chat Area */}
+                    <Grid item sm={8} md={6} xs={12} height="100%" overflow="auto">
+                        <Wrappedcomponent {...props} chatId={chatId} user={user} />
                     </Grid>
 
-                    <Grid item md={3} lg={3} height={"100%"}
+                    {/* Right Sidebar */}
+                    <Grid item md={3} lg={3}
                         sx={{
                             display: { xs: "none", md: "block" },
                             padding: "2rem",
-                            background: "black"
-                        }}>
+                            background: "black",
+                            height: "100%",
+                            overflow: "auto"
+                        }}
+                    >
                         <Profile user={user} />
                     </Grid>
                 </Grid>
-            </>
+            </Box>
         )
+
     }
 }
 

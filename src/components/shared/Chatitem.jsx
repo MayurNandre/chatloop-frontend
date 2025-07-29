@@ -1,9 +1,9 @@
 import { Box, Stack, Typography } from '@mui/material'
+import { motion } from 'framer-motion'
 import { memo, useEffect, useRef } from 'react'
+import { matBlack } from '../../constants/color'
 import { Link } from '../styles/StyledComponent'
 import AvatarCard from './AvatarCard'
-import { motion } from 'framer-motion'
-import { blackWhiteGradient, matBlack } from '../../constants/color'
 
 const Chatitem = ({
     avatar = [],
@@ -37,10 +37,13 @@ const Chatitem = ({
 
     return (
         <Link
-            sx={{
-                padding: "0"
+            sx={{ padding: "0" }}
+            to={`/chat/${_id}`}
+            onClick={() => {
+                if (isMobile) dispatch(setIsMobile(false));
             }}
-            to={`/chat/${_id}`} onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}>
+            onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
+        >
 
             <motion.div
                 initial={{ opacity: 0, y: "-%100" }}

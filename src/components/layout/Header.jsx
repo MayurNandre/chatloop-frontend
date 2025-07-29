@@ -65,7 +65,7 @@ const Header = () => {
         boxShadow: "none",
       }}>
         <AppBar
-          position='static'
+          position='sticky'
           elevation={0}
           sx={{
             backgroundColor: "rgba(255, 255, 255, 0.05)",
