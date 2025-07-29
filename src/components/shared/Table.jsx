@@ -6,7 +6,7 @@ import { matBlack } from '../../constants/color';
 const Table = ({ rows, columns, heading, rowHeight = 52 }) => {
   return (
     <Container
-      sx={{ height: "100vh" }}>
+      sx={{ height: "100dvh" }}>
 
       <Paper
         elevation={3}

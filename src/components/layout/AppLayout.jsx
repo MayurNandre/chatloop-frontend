@@ -80,7 +80,7 @@ const AppLayout = () => (Wrappedcomponent) => {
                 <DeleteChatMenu dispatch={dispatch} deleteMenuAnchor={deleteMenuAnchor} />
 
                 {isLoading ? (
-                    <Skeleton variant="rectangular" height="calc(100vh - 4rem)" />
+                    <Skeleton variant="rectangular" height="calc(100dvh - 4rem)" />
                 ) : (
                     <Drawer open={isMobile} onClose={handleMobileClose}>
                         <ChatList
@@ -94,7 +94,7 @@ const AppLayout = () => (Wrappedcomponent) => {
                     </Drawer>
                 )}
 
-                <Grid container height={"calc(100vh - 4rem)"}>
+                <Grid container height={"calc(100dvh - 4rem)"}>
                     {/* Left Sidebar */}
                     <Grid item sm={4} md={3} height="100%" sx={{ display: { xs: "none", sm: "block" }, overflowY: "auto" }}>
                         {isLoading ? (

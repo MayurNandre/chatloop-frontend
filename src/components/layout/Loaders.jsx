@@ -4,12 +4,12 @@ import { BouncingSkeleton } from '../styles/StyledComponent'
 
 const LayoutLoader = () => {
     return (
-        <Grid container height={"calc(100vh - 4rem)"} spacing={"1rem"}>
+        <Grid container height={"calc(100dvh - 4rem)"} spacing={"1rem"}>
             <Grid item sm={4} md={4} height={"100%"}
                 sx={{
                     display: { xs: "none", sm: "block" },
                 }}>
-                <Skeleton variant='rounded' height={"100vh"} />
+                <Skeleton variant='rounded' height={"100dvh"} />
             </Grid>
 
             <Grid item sm={8} md={5} xs={12} height={"100%"}>
@@ -26,7 +26,7 @@ const LayoutLoader = () => {
                 sx={{
                     display: { xs: "none", md: "block" },
                 }}>
-                <Skeleton variant='rounded' height={"100vh"} />
+                <Skeleton variant='rounded' height={"100dvh"} />
             </Grid>
         </Grid>
     )

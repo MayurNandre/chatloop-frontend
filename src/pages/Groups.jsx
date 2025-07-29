@@ -207,7 +207,7 @@ const Groups = () => {
 
   // Rendering off main component
   return myGroups.isLoading ? <LayoutLoader /> : (
-    <Grid container height={"100vh"}>
+    <Grid container height={"100dvh"}>
       {/* Left side */}
       <Grid
         item
@@ -259,7 +259,7 @@ const Groups = () => {
                   md: "1rem 4rem"
                 }}
                 spacing={"1rem"}
-                height={{ xs: "46vh", sm: "40vh", md: "50vh" }}
+                height={{ xs: "46dvh", sm: "40dvh", md: "50dvh" }}
                 overflow={"auto"}
               >
                 {/* ----------members---------- */}
@@ -337,7 +337,7 @@ const GroupList = ({ w = "50vw", myGroups = [], chatId }) => {
       sx={{
         background: "linear-gradient(to right, #ffc3c3ff, #d45a6aff)",
         width: "100%",
-        height: "100vh"
+        height: "100dvh"
       }}>
       {
         myGroups.length > 0 ? (
