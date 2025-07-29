@@ -1,4 +1,4 @@
-import { Drawer, Grid, Skeleton, Box } from '@mui/material'
+import { Box, Drawer, Grid, Skeleton } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -83,7 +83,7 @@ const AppLayout = () => (Wrappedcomponent) => {
         useSocketEvents(socket, eventHandlers)
 
         return (
-            <Box sx={{ height: "100vh", overflow: "hidden", width: "100vw" }}>
+            <Box sx={{ height: "100vh", width: "100vw", display: "flex", flexDirection: "column" }}>
                 <Title />
                 <Header />
                 <DeleteChatMenu dispatch={dispatch} deleteMenuAnchor={deleteMenuAnchor} />
@@ -113,7 +113,7 @@ const AppLayout = () => (Wrappedcomponent) => {
                     )
                 }
 
-                <Grid container height="calc(100vh - 4rem)" overflow="hidden">
+                <Grid container flex={1} overflow="hidden">
                     {/* Left Sidebar */}
                     <Grid item sm={4} md={3} sx={{ display: { xs: "none", sm: "block" }, height: "100%", overflow: "auto" }}>
                         {
@@ -130,7 +130,7 @@ const AppLayout = () => (Wrappedcomponent) => {
                     </Grid>
 
                     {/* Middle Chat Area */}
-                    <Grid item sm={8} md={6} xs={12} height="100%" overflow="auto">
+                    <Grid item sm={8} md={6} xs={12} height="100%" sx={{ overflowY: "auto" }}>
                         <Wrappedcomponent {...props} chatId={chatId} user={user} />
                     </Grid>
 

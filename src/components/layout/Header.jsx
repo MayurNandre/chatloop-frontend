@@ -1,6 +1,7 @@
 import {
   Add as AddIcon,
   Group as GroupIcon,
+  Info as InfoIcon,
   Logout as LogoutIcon,
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
@@ -8,11 +9,11 @@ import {
 } from '@mui/icons-material'
 import { AppBar, Backdrop, Badge, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material'
 import axios from 'axios'
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { bgGradient, bgGradient2, bgGradientHeader, blackWhiteGradient, matBlack, orange } from '../../constants/color'
+import { bgGradientHeader, matBlack } from '../../constants/color'
 import { server } from '../../constants/config'
 import { userNotExists } from '../../redux/reducers/auth'
 import { resetNotificationCount } from '../../redux/reducers/chat'
@@ -82,7 +83,9 @@ const Header = () => {
               variant='h6'
               sx={{
                 display: { xs: "none", sm: "block" },
-                color: "#fff"
+                color: "#fff",
+                fontWeight: 'bold',
+                fontFamily: "'Poppins', sans-serif"
               }}
             >
               ChatLoop
@@ -112,6 +115,12 @@ const Header = () => {
               <IconBtn title={"Logout"}
                 icon={<LogoutIcon sx={{ fontSize: { xs: "1rem", sm: "1.2rem", md: "1.6rem" } }} />}
                 onClick={handleLogout} />
+
+              {/* MY-INFO */}
+              <IconBtn
+                title={"ChatLoop – Designed & developed by Mayur Nandre"}
+                icon={<InfoIcon sx={{ fontSize: { xs: "1rem", sm: "1.2rem", md: "1.6rem" }, color: matBlack }} />}
+              />
             </Box>
           </Toolbar>
         </AppBar>
