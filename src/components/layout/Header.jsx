@@ -65,9 +65,11 @@ const Header = () => {
         boxShadow: "none",
       }}>
         <AppBar
-          position='sticky'
           elevation={0}
           sx={{
+            position: 'sticky',
+            top: 0,
+            zIndex: (theme) => theme.zIndex.appBar,
             backgroundColor: "rgba(255, 255, 255, 0.05)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
