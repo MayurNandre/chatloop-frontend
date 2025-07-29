@@ -1,4 +1,4 @@
-import { Box, Drawer, Grid, Skeleton } from '@mui/material'
+import { Drawer, Grid, Skeleton } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -18,139 +18,118 @@ import Header from './Header'
 const AppLayout = () => (Wrappedcomponent) => {
     return (props) => {
         const dispatch = useDispatch();
-        const navigate = useNavigate()
-
+        const navigate = useNavigate();
         const params = useParams();
         const chatId = params.chatId;
 
         const deleteMenuAnchor = useRef(null);
-
-
         const [onlineUsers, setOnlineUsers] = useState([]);
 
         const socket = getSocket();
-
         const { isMobile } = useSelector((state) => state.misc);
         const { user } = useSelector((state) => state.auth);
         const { newMessagesAlert } = useSelector((state) => state.chat);
 
-        const { isLoading, data, isError, error, refetch } = useMyChatsQuery("")
-
+        const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
 
         useErrors([{ isError, error }]);
 
         useEffect(() => {
-            getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert })
-        }, [newMessagesAlert])
-
+            getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
+        }, [newMessagesAlert]);
 
         const handleDeleteChat = (e, chatId, groupChat) => {
-            dispatch(setIsDeleteMenu(true))
-            dispatch(setSelectedDeleteChat({ chatId, groupChat }))
+            dispatch(setIsDeleteMenu(true));
+            dispatch(setSelectedDeleteChat({ chatId, groupChat }));
             deleteMenuAnchor.current = e.currentTarget;
-        }
+        };
 
-
-        const handleMobileClose = () => dispatch(setIsMobile(false))
+        const handleMobileClose = () => dispatch(setIsMobile(false));
 
         const newMessageAlertListner = useCallback((data) => {
-            if (data.chatId === chatId) return
-            dispatch(setNewMessagesAlert(data))
-        }, [chatId])
+            if (data.chatId === chatId) return;
+            dispatch(setNewMessagesAlert(data));
+        }, [chatId]);
 
         const newRequestListner = useCallback(() => {
             dispatch(incrementNotification());
-        }, [dispatch])
+        }, [dispatch]);
 
         const refetchListner = useCallback(() => {
             refetch();
-            navigate("/")
-        }, [dispatch, navigate])
-
+            navigate("/");
+        }, [dispatch, navigate]);
 
         const onlineUsersListener = useCallback((data) => {
             setOnlineUsers(data);
-        }, [])
-
+        }, []);
 
         const eventHandlers = {
             [NEW_MESSAGE_ALERT]: newMessageAlertListner,
             [NEW_REQUEST]: newRequestListner,
             [REFETCH_CHATS]: refetchListner,
-            [ONLINE_USERS]: onlineUsersListener
+            [ONLINE_USERS]: onlineUsersListener,
         };
 
-        useSocketEvents(socket, eventHandlers)
+        useSocketEvents(socket, eventHandlers);
 
         return (
-            <Box sx={{ height: "100vh", width: "100vw", display: "flex", flexDirection: "column" }}>
+            <>
                 <Title />
                 <Header />
                 <DeleteChatMenu dispatch={dispatch} deleteMenuAnchor={deleteMenuAnchor} />
-                {
-                    isLoading ? (
-                        <Skeleton variant="rectangular" height="100%" />
-                    ) : (
-                        <Drawer
-                            open={isMobile}
-                            onClose={handleMobileClose}
-                            PaperProps={{
-                                sx: {
-                                    height: '100vh',
-                                    overflow: 'auto'
-                                }
-                            }}
-                        >
+
+                {isLoading ? (
+                    <Skeleton variant="rectangular" height="calc(100vh - 4rem)" />
+                ) : (
+                    <Drawer open={isMobile} onClose={handleMobileClose}>
+                        <ChatList
+                            w='70vw'
+                            chats={data?.chats}
+                            ChatId={chatId}
+                            handleDeleteChat={handleDeleteChat}
+                            newMessagesAlert={newMessagesAlert}
+                            onlineUsers={onlineUsers}
+                        />
+                    </Drawer>
+                )}
+
+                <Grid container height={"calc(100vh - 4rem)"}>
+                    {/* Left Sidebar */}
+                    <Grid item sm={4} md={3} height="100%" sx={{ display: { xs: "none", sm: "block" }, overflowY: "auto" }}>
+                        {isLoading ? (
+                            <Skeleton variant="rectangular" height="100%" />
+                        ) : (
                             <ChatList
-                                w='70vw'
                                 chats={data?.chats}
                                 ChatId={chatId}
                                 handleDeleteChat={handleDeleteChat}
                                 newMessagesAlert={newMessagesAlert}
                                 onlineUsers={onlineUsers}
                             />
-                        </Drawer>
-                    )
-                }
-
-                <Grid container flex={1} overflow="hidden">
-                    {/* Left Sidebar */}
-                    <Grid item sm={4} md={3} sx={{ display: { xs: "none", sm: "block" }, height: "100%", overflow: "auto" }}>
-                        {
-                            isLoading ? <Skeleton variant="rectangular" height="100%" /> : (
-                                <ChatList
-                                    chats={data?.chats}
-                                    ChatId={chatId}
-                                    handleDeleteChat={handleDeleteChat}
-                                    newMessagesAlert={newMessagesAlert}
-                                    onlineUsers={onlineUsers}
-                                />
-                            )
-                        }
+                        )}
                     </Grid>
 
                     {/* Middle Chat Area */}
-                    <Grid item sm={8} md={6} xs={12} height="100%" sx={{ overflowY: "auto" }}>
+                    <Grid item sm={8} md={6} xs={12} height="100%" sx={{ overflow: "hidden", display: "flex", flexDirection: "column" }}>
                         <Wrappedcomponent {...props} chatId={chatId} user={user} />
                     </Grid>
 
                     {/* Right Sidebar */}
-                    <Grid item md={3} lg={3}
+                    <Grid item md={3} lg={3} height="100%"
                         sx={{
                             display: { xs: "none", md: "block" },
                             padding: "2rem",
-                            background: "black",
-                            height: "100%",
-                            overflow: "auto"
+                            bgcolor: "rgba(0,0,0,0.85)",
+                            overflowY: "auto"
                         }}
                     >
                         <Profile user={user} />
                     </Grid>
                 </Grid>
-            </Box>
-        )
+            </>
+        );
+    };
+};
 
-    }
-}
-
-export default AppLayout
+export default AppLayout;

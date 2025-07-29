@@ -1,10 +1,15 @@
-/* index.css */
 html,
 body {
   padding: 0;
   margin: 0;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden; /* ⛳ Prevent unwanted full-page scroll */
   max-width: 100%;
+  font-family: 'Inter', sans-serif; /* Optional: clean font */
+}
+
+#root {
+  height: 100%;
 }
 
 *,
